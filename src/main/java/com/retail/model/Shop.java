@@ -4,8 +4,8 @@ public class Shop {
     private String name;
     private String number;//TODO consider separating address entity
     private String postCode;
-    private String longitude;
-    private String latitude;
+    private double longitude;
+    private double latitude;
 
     public Shop(String name, String number, String postCode) {
         this.name = name;
@@ -25,19 +25,19 @@ public class Shop {
         return postCode;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -48,21 +48,25 @@ public class Shop {
 
         Shop shop = (Shop) o;
 
+        if (Double.compare(shop.longitude, longitude) != 0) return false;
+        if (Double.compare(shop.latitude, latitude) != 0) return false;
         if (!name.equals(shop.name)) return false;
         if (!number.equals(shop.number)) return false;
-        if (!postCode.equals(shop.postCode)) return false;
-        if (!longitude.equals(shop.longitude)) return false;
-        return latitude.equals(shop.latitude);
+        return postCode.equals(shop.postCode);
 
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result;
+        long temp;
+        result = name.hashCode();
         result = 31 * result + number.hashCode();
         result = 31 * result + postCode.hashCode();
-        result = 31 * result + longitude.hashCode();
-        result = 31 * result + latitude.hashCode();
+        temp = Double.doubleToLongBits(longitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(latitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 

@@ -18,7 +18,7 @@ public class ShopController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void add(@RequestBody Shop shop) {
-        LOG.info("Add shop " + shop);
+        LOG.info("Adding shop " + shop);
 
         shopService.add(shop);
     }
