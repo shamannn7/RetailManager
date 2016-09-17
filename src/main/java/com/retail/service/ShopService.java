@@ -2,15 +2,18 @@ package com.retail.service;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
+import com.google.maps.GeocodingApiRequest;
 import com.google.maps.model.GeocodingResult;
 import com.retail.controller.ShopController;
 import com.retail.model.Shop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ShopService {
     private static final Logger LOG = LoggerFactory.getLogger(ShopService.class);
     //TODO encrypt
@@ -18,14 +21,16 @@ public class ShopService {
 
 
     private List<Shop> shops = new ArrayList<>();
+    private GeocodingApiRequest geocode;
 
     public void add(Shop shop) {
         LOG.info("Adding shop " + shop);
 
         GeoApiContext context = new GeoApiContext().setApiKey(GOOGLE_MAPS_KEY);
         try {
-            GeocodingResult[] results = GeocodingApi.geocode(context,
-                    shop.getNumber() + " "+ shop.getPostCode()).await();
+            geocode = GeocodingApi.geocode(context,
+                    shop.getNumber() + " " + shop.getPostCode());
+            GeocodingResult[] results = geocode.await();
             shop.setLatitude(results[0].geometry.location.lat);
             shop.setLongitude(results[0].geometry.location.lng);
         } catch (Exception e) {

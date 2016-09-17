@@ -7,6 +7,9 @@ public class Shop {
     private double longitude;
     private double latitude;
 
+    public Shop() {
+    }
+
     public Shop(String name, String number, String postCode) {
         this.name = name;
         this.number = number;
