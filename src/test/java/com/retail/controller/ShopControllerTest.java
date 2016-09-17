@@ -15,13 +15,12 @@ public class ShopControllerTest {
 
     private static final String SHOP_ADD_URL = "/shop/add";
     private static final String WRONG_SHOP_ADD_URL = "/shop/adds";
-    private static final String NEW_SHOP_JSON = "{\"name\":\"Harrods\", \"number\": 7, \"postcode\":\"ES161AS\"}";
+    private static final String NEW_SHOP_JSON = "{\"name\":\"Harrods\", \"number\": 7, \"postcode\":\"SW1X 7XL\"}";
 
     private ShopController uut;
 
     @Before
     public void setUp() {
-//        MockitoAnnotations.initMocks(this);
         uut = new ShopController();
     }
 

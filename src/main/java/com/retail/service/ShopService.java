@@ -17,16 +17,17 @@ import java.util.List;
 public class ShopService {
     private static final Logger LOG = LoggerFactory.getLogger(ShopService.class);
     //TODO encrypt
-    private static final String GOOGLE_MAPS_KEY = "AIzaSyCO6JFHygl94qGWCaVQZJ8TTHcGXZlDsFE";
+    static final String GOOGLE_MAPS_KEY = "AIzaSyCO6JFHygl94qGWCaVQZJ8TTHcGXZlDsFE";
 
 
     private List<Shop> shops = new ArrayList<>();
     private GeocodingApiRequest geocode;
+    private GeoApiContext context;
 
     public void add(Shop shop) {
         LOG.info("Adding shop " + shop);
 
-        GeoApiContext context = new GeoApiContext().setApiKey(GOOGLE_MAPS_KEY);
+        context = new GeoApiContext().setApiKey(GOOGLE_MAPS_KEY);
         try {
             geocode = GeocodingApi.geocode(context,
                     shop.getNumber() + " " + shop.getPostCode());
