@@ -11,4 +11,8 @@ class ShopService {
     void add(Shop shop){
         shops.add(shop);
     }
+
+    public List<Shop> getShops() {
+        return shops;
+    }
 }
