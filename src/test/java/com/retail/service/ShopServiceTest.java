@@ -21,14 +21,14 @@ public class ShopServiceTest {
 
     @Test
     public void test_validAdd() {
-        Shop shop = new Shop("Westfield", "22", "W12 7GF");
+        Shop shop = new Shop("Whittard", "67", "W1B 4DZ");
         uut.add(shop);
         Shop actual = uut.getShops().get(0);
-        assertEquals("Westfield", actual.getName());
-        assertEquals("22", actual.getNumber());
-        assertEquals("W12 7GF", actual.getPostCode());
-        assertEquals(51.5072023, actual.getLatitude(), DELTA);
-        assertEquals(-0.2232423, actual.getLongitude(), DELTA);
+        assertEquals("Whittard", actual.getName());
+        assertEquals("67", actual.getNumber());
+        assertEquals("W1B 4DZ", actual.getPostCode());
+        assertEquals(51.5096832, actual.getLatitude(), DELTA);
+        assertEquals(-0.1362628, actual.getLongitude(), DELTA);
     }
 
     @Test

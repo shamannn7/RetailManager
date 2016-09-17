@@ -23,11 +23,9 @@ public class ShopService {
         LOG.info("Adding shop " + shop);
 
         GeoApiContext context = new GeoApiContext().setApiKey(GOOGLE_MAPS_KEY);
-//        GeocodingResult[] results =  GeocodingApi.geocode(context,
-//                "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
         try {
             GeocodingResult[] results = GeocodingApi.geocode(context,
-                    /*shop.getNumber() + " "+*/ shop.getPostCode()).await();
+                    shop.getNumber() + " "+ shop.getPostCode()).await();
             shop.setLatitude(results[0].geometry.location.lat);
             shop.setLongitude(results[0].geometry.location.lng);
         } catch (Exception e) {
