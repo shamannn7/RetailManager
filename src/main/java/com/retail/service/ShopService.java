@@ -17,7 +17,7 @@ import java.util.List;
 public class ShopService {
     private static final Logger LOG = LoggerFactory.getLogger(ShopService.class);
     //TODO encrypt
-    static final String GOOGLE_MAPS_KEY = "AIzaSyCO6JFHygl94qGWCaVQZJ8TTHcGXZlDsFE";
+    private static final String GOOGLE_MAPS_KEY = "AIzaSyCO6JFHygl94qGWCaVQZJ8TTHcGXZlDsFE";
 
 
     private List<Shop> shops = new ArrayList<>();
@@ -27,11 +27,9 @@ public class ShopService {
     public void add(Shop shop) {
         LOG.info("Adding shop " + shop);
 
-        context = new GeoApiContext().setApiKey(GOOGLE_MAPS_KEY);
         try {
-            geocode = GeocodingApi.geocode(context,
-                    shop.getNumber() + " " + shop.getPostCode());
-            GeocodingResult[] results = geocode.await();
+            GeocodingResult[] results = getGeocodingResults(shop);
+
             shop.setLatitude(results[0].geometry.location.lat);
             shop.setLongitude(results[0].geometry.location.lng);
         } catch (Exception e) {
@@ -39,6 +37,19 @@ public class ShopService {
         }
 
         shops.add(shop);
+    }
+
+    public Shop getNearestShop(){
+        //TODO implement
+        return new Shop();
+//        return shops.getNearest();
+    }
+
+    private GeocodingResult[] getGeocodingResults(Shop shop) throws Exception {
+        context = new GeoApiContext().setApiKey(GOOGLE_MAPS_KEY);
+        geocode = GeocodingApi.geocode(context,
+                shop.getNumber() + " " + shop.getPostCode());
+        return geocode.await();
     }
 
     List<Shop> getShops() {

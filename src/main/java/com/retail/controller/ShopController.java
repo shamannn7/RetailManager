@@ -16,10 +16,23 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
+    /**
+     * Adds shop to the Retail Manager shop list.
+     *
+     * @param shop JSON object with name, house number and postcode. {@see Shop}
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void add(@RequestBody Shop shop) {
         LOG.info("Adding shop " + shop);
 
         shopService.add(shop);
+    }
+
+    @RequestMapping(value = "/get-nearest", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Shop getNearest(@RequestParam Double customerLongitude, @RequestParam Double customerLatitude) {
+        LOG.info("Getting nearest shop for customerLongitude = " + customerLongitude
+                + " and customerLatitude = " + customerLatitude);
+
+        return shopService.getNearestShop();
     }
 }
