@@ -5,14 +5,14 @@ import com.retail.model.Shop;
 import java.util.ArrayList;
 import java.util.List;
 
-class ShopService {
+public class ShopService {
     private List<Shop> shops = new ArrayList<>();
 
-    void add(Shop shop){
+    public void add(Shop shop){
         shops.add(shop);
     }
 
-    public List<Shop> getShops() {
+    List<Shop> getShops() {
         return shops;
     }
 }
