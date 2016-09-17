@@ -3,9 +3,8 @@ package com.retail.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,16 +13,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class ShopControllerTest {
 
+    private static final String SHOP_ADD_URL = "/shop/add";
+    private static final String WRONG_SHOP_ADD_URL = "/shop/adds";
+    private static final String NEW_SHOP_JSON = "{\"name\":\"Harrods\", \"number\": 7, \"postcode\":\"ES161AS\"}";
+
     private ShopController uut;
 
     @Before
-    public void setUp(){
+    public void setUp() {
 //        MockitoAnnotations.initMocks(this);
         uut = new ShopController();
     }
 
     @Test
-    public void add_shouldReturnOkStatus() throws Exception{
-        MockMvcBuilders.standaloneSetup(uut).build().perform(post("/shop/add")).andExpect(status().isOk());
+    public void add_shouldReturnOkStatus() throws Exception {
+        MockMvcBuilders.standaloneSetup(uut).build().perform(
+                post(SHOP_ADD_URL).content(NEW_SHOP_JSON).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void add_shouldReturn404Status() throws Exception {
+        MockMvcBuilders.standaloneSetup(uut).build().perform(post(WRONG_SHOP_ADD_URL)).andExpect(status().is(404));
     }
 }
