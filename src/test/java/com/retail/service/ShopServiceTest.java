@@ -3,7 +3,6 @@ package com.retail.service;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.GeocodingApiRequest;
-import com.google.maps.model.AddressType;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.retail.model.Shop;
@@ -37,8 +36,8 @@ public class ShopServiceTest {
     public void setUp() throws Exception {
         LatLng latLng = new LatLng(LATITUDE, LONGITUDE);
         GeocodingResult geocodingResult = new GeocodingResult();
-        geocodingResult.types = new AddressType[]{AddressType.LOCALITY};
-        geocodingResult.formattedAddress = "Some address";
+//        geocodingResult.types = new AddressType[]{AddressType.LOCALITY};
+//        geocodingResult.formattedAddress = "Some address";
 
         GeocodingResult[] geocodingResults = new GeocodingResult[]{geocodingResult};
 
@@ -65,7 +64,30 @@ public class ShopServiceTest {
         Shop actual = uut.getShops().get(0);
 
         assertEquals("Whittard", actual.getName());
-        assertEquals("67", actual.getNumber());
+        assertEquals("67", actual.getHouseNumber());
         assertEquals("W1B 4DZ", actual.getPostCode());
+    }
+
+
+    @Test
+    public void add_shouldGetNearestShopWithOnlyShop() throws Exception {
+        Shop shop = new Shop("Whittard", "67", "W1B 4DZ");
+        uut.add(shop);
+        Shop nearestShop = uut.getNearestShop(LONGITUDE, LATITUDE);
+
+        assertEquals(shop, nearestShop);
+    }
+
+    @Test//TODO is this for another level of testing
+    public void add_shouldGetNearestShopWithSeveralShops() throws Exception {
+        Shop shop = new Shop("Whittard", "67", "W1B 4DZ");//TODO expand
+        Shop shop2 = new Shop("Whittard", "67", "W1C 4DZ");
+        Shop shop3 = new Shop("Whittard", "67", "W1D 4DZ");
+        uut.add(shop);
+        uut.add(shop2);
+        uut.add(shop3);
+        Shop nearestShop = uut.getNearestShop(LONGITUDE, LATITUDE);
+
+        assertEquals(shop, nearestShop);
     }
 }

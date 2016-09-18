@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * RESTful Server API to add shops and find the nearest to the customer.
+ */
 @RestController
 @RequestMapping(value = "/shop", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ShopController {
@@ -28,11 +31,18 @@ public class ShopController {
         shopService.add(shop);
     }
 
+    /**
+     * Returns the shop nearest to the customer by its coordinates.
+     *
+     * @param customerLongitude customer's longitude
+     * @param customerLatitude  customer's latitude
+     * @return nearest shop
+     */
     @RequestMapping(value = "/get-nearest", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Shop getNearest(@RequestParam Double customerLongitude, @RequestParam Double customerLatitude) {
-        LOG.info("Getting nearest shop for customerLongitude = " + customerLongitude
-                + " and customerLatitude = " + customerLatitude);
+        LOG.info("Getting nearest shop for customer with longitude = " + customerLongitude
+                + " and latitude = " + customerLatitude);
 
-        return shopService.getNearestShop();
+        return shopService.getNearestShop(customerLongitude, customerLatitude);
     }
 }

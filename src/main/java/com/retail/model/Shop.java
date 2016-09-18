@@ -2,7 +2,7 @@ package com.retail.model;
 
 public class Shop {
     private String name;
-    private String number;//TODO consider separating address entity
+    private String houseNumber;
     private String postCode;
     private double longitude;
     private double latitude;
@@ -10,9 +10,9 @@ public class Shop {
     public Shop() {
     }
 
-    public Shop(String name, String number, String postCode) {
+    public Shop(String name, String houseNumber, String postCode) {
         this.name = name;
-        this.number = number;
+        this.houseNumber = houseNumber;
         this.postCode = postCode;
     }
 
@@ -20,8 +20,8 @@ public class Shop {
         return name;
     }
 
-    public String getNumber() {
-        return number;
+    public String getHouseNumber() {
+        return houseNumber;
     }
 
     public String getPostCode() {
@@ -54,7 +54,7 @@ public class Shop {
         if (Double.compare(shop.longitude, longitude) != 0) return false;
         if (Double.compare(shop.latitude, latitude) != 0) return false;
         if (!name.equals(shop.name)) return false;
-        if (!number.equals(shop.number)) return false;
+        if (!houseNumber.equals(shop.houseNumber)) return false;
         return postCode.equals(shop.postCode);
 
     }
@@ -64,7 +64,7 @@ public class Shop {
         int result;
         long temp;
         result = name.hashCode();
-        result = 31 * result + number.hashCode();
+        result = 31 * result + houseNumber.hashCode();
         result = 31 * result + postCode.hashCode();
         temp = Double.doubleToLongBits(longitude);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -77,7 +77,7 @@ public class Shop {
     public String toString() {
         return "Shop{" +
                 "name='" + name + '\'' +
-                ", number='" + number + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
                 ", postCode='" + postCode + '\'' +
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
