@@ -23,6 +23,7 @@ public class ShopService {
     private static final String GOOGLE_MAPS_KEY = "AIzaSyB6quqSj7dtBu4MGXRQMkKVHrHtEd5gvhQ";
     private static final int NOT_FOUND = -1;
     private static final String PLACE_ID = "place_id:";
+    private static final String ZERO_RESULTS = "ZERO_RESULTS";
 
 
     private List<Shop> shops = new ArrayList<>();
@@ -38,7 +39,7 @@ public class ShopService {
             shop.setLongitude(result.geometry.location.lng);
             shop.setPlaceId(result.placeId);
 
-            LOG.info("Adding {} to the list " + shop);
+            LOG.info("Adding {} to the shop list ", shop);
             shops.add(shop);
         }
     }
@@ -46,7 +47,7 @@ public class ShopService {
     public Shop getNearestShop(double customerLongitude, double customerLatitude) {
         LOG.info("Getting nearest shop for customer with longitude = " + customerLongitude
                 + " and latitude = " + customerLatitude);
-        if (null == shops) {
+        if (null == shops || 0 == shops.size()) {
             return null;
         }
 
@@ -67,12 +68,7 @@ public class ShopService {
         if (null == shop || null == shop.getPostCode()) {
             return null;
         }
-        String address;
-        if (null != shop.getHouseNumber()) {
-            address = shop.getHouseNumber() + " " + shop.getPostCode();
-        } else {
-            address = shop.getPostCode();
-        }
+        String address = shop.getPostCode();
         GeocodingApiRequest geocode;
         try {
             geocode = GeocodingApi.geocode(context, address);
@@ -99,7 +95,8 @@ public class ShopService {
             LOG.error("Exception while querying distance from Google Maps Api: " + e);
         }
 
-        if (null != distanceMatrix) {
+        if (null != distanceMatrix &&
+                !ZERO_RESULTS.equals(distanceMatrix.rows[0].elements[0].status.toString())) {
             return distanceMatrix.rows[0].elements[0].distance.inMeters;
         } else {
             return NOT_FOUND;
