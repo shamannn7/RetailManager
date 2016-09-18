@@ -50,7 +50,6 @@ public class StepDefinitions {
 
         stubFor(get(urlEqualTo("/shop/get-nearest"))
                 .withHeader("accept", equalTo("application/json"))
-//                .withRequestBody(containing("customerLongitude")).withRequestBody(containing("customerLatitude"))
                 .willReturn(aResponse().withBody(GET_SHOP_JSON)));
     }
 
@@ -82,7 +81,6 @@ public class StepDefinitions {
     @Then("^the server should handle it and return the nearest shop$")
     public void serverReturnsSTheNearestShop() {
         assertEquals(200, response.getStatusLine().getStatusCode());
-//        assertEquals(200, response.get().getStatusCode());
         verify(getRequestedFor(urlEqualTo("/shop/get-nearest"))
                 .withHeader("accept", equalTo("application/json")));
     }
